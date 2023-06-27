@@ -2,6 +2,83 @@
 
 using namespace std;
 
+void printInterface(string name, int hp, int mp) {
+    system("cls");
+
+    cout << "Player: " << name << endl;
+
+    cout << endl << "HP |";
+    for (int i = 1; i <= 20; i++) {
+        if (i*5 <= hp) {
+            cout << "#";
+        } else {
+            cout << " ";
+        }
+    }
+    cout << "| " << hp << "/100" << endl;
+
+    cout << endl << "MP |";
+    for (int i = 1; i <= 10; i++) {
+        if (i*5 <= mp) {
+            cout << "#";
+        } else {
+            cout << " ";
+        }
+    }
+    cout << "| " << mp << "/50" << endl<< endl << endl;
+}
+
+int getChoiceFromStartMenu() {
+    cout << "--------MENU--------\n";
+    cout << "--------------------\n";
+    cout << "1. Go to fight\n";
+    cout << "2. Heal (5 mp cost)\n";
+    cout << "3. Exit\n";
+    cout << "--------------------\n\n";
+
+    int choice;
+    cout << "Yout choice: ";
+    cin >> choice;
+
+    return choice;
+}
+
+int getAttackTypeFromBattleMenu(string monsterName, int monsterHP, int monsterArmor, int monsterDamage) {
+    cout << "Monster name: " << monsterName << endl;
+    cout << "Monster HP: " << monsterHP << endl;
+    cout << "Monster armor: " << monsterArmor << endl;
+    cout << "Monster damage: " << monsterDamage << endl;
+
+    cout << endl << endl;
+
+    cout << "--------------------MENU--------------------\n";
+    cout << "--------------------------------------------\n";
+    cout << "1. Sword attack\n";
+    cout << "2. Magic attack (+5 damage, 10 mp cost)\n";
+    cout << "3. Leave\n";
+    cout << "--------------------------------------------\n\n";
+    cout << "Yout choice: ";
+
+    int attackType;
+    cin >> attackType;
+
+    return attackType;
+}
+
+void printGameOver(int killsCount) {
+    cout << endl << endl;
+    cout << "GAME OVER\n";
+    if (killsCount >= 5) {
+        cout << "YOU KILLED " << killsCount << " MONSTERS!!!\n";
+        cout << "YOU ARE GREATE!\n";
+    } else {
+        cout << "You are looser...\n";
+        cout << "But you killed " << killsCount << " monsters!\n";
+    }
+    cout << "Exiting the game...\n";
+    cout << endl << endl;
+}
+
 int main() {
     srand( time(NULL) );
 
@@ -16,40 +93,9 @@ int main() {
     cin >> name;
 
     while (true) {
-        system("cls");
+        printInterface(name, hp, mp);
 
-        cout << "Player: " << name << endl;
-
-        cout << endl << "HP |";
-        for (int i = 1; i <= 20; i++) {
-            if (i*5 <= hp) {
-                cout << "#";
-            } else {
-                cout << " ";
-            }
-        }
-        cout << "| " << hp << "/100" << endl;
-
-        cout << endl << "MP |";
-        for (int i = 1; i <= 10; i++) {
-            if (i*5 <= mp) {
-                cout << "#";
-            } else {
-                cout << " ";
-            }
-        }
-        cout << "| " << mp << "/50" << endl<< endl << endl;
-
-        cout << "--------MENU--------\n";
-        cout << "--------------------\n";
-        cout << "1. Go to fight\n";
-        cout << "2. Heal (5 mp cost)\n";
-        cout << "3. Exit\n";
-        cout << "--------------------\n\n";
-
-        int choice;
-        cout << "Yout choice: ";
-        cin >> choice;
+        int choice = getChoiceFromStartMenu();
 
         // Variables...
         int monsterType, monsterHP, monsterArmor, monsterDamage;
@@ -95,46 +141,9 @@ int main() {
                 }
 
                 while (monsterHP > 0) {
-                    system("cls");
+                    printInterface(name, hp, mp);
 
-                    cout << "Player: " << name << endl;
-
-                    cout << endl << "HP |";
-                    for (int i = 1; i <= 20; i++) {
-                        if (i*5 <= hp) {
-                            cout << "#";
-                        } else {
-                            cout << " ";
-                        }
-                    }
-                    cout << "| " << hp << "/100" << endl;
-
-                    cout << endl << "MP |";
-                    for (int i = 1; i <= 10; i++) {
-                        if (i*5 <= mp) {
-                            cout << "#";
-                        } else {
-                            cout << " ";
-                        }
-                    }
-                    cout << "| " << mp << "/50" << endl<< endl << endl;
-
-                    cout << "Monster name: " << monsterName << endl;
-                    cout << "Monster HP: " << monsterHP << endl;
-                    cout << "Monster armor: " << monsterArmor << endl;
-                    cout << "Monster damage: " << monsterDamage << endl;
-
-                    cout << endl << endl;
-
-                    cout << "--------------------MENU--------------------\n";
-                    cout << "--------------------------------------------\n";
-                    cout << "1. Sword attack\n";
-                    cout << "2. Magic attack (+5 damage, 10 mp cost)\n";
-                    cout << "3. Leave\n";
-                    cout << "--------------------------------------------\n\n";
-                    cout << "Yout choice: ";
-
-                    cin >> attackType;
+                    attackType = getAttackTypeFromBattleMenu(monsterName, monsterHP, monsterArmor, monsterDamage);
 
                     switch (attackType) {
                         case 1:
@@ -166,15 +175,7 @@ int main() {
                             }
                             break;
                         default:
-                            cout << "GAME OVER\n";
-                            if (killsCount >= 5) {
-                                cout << "YOU KILLED " << killsCount << "MONSTERS!!!\n";
-                                cout << "YOU ARE GREATE!\n";
-                            } else {
-                                cout << "You are looser...\n";
-                                cout << "But you killed " << killsCount << " monsters!\n";
-                            }
-                            cout << "Exiting the game...\n";
+                            printGameOver(killsCount);
                             return 0;
                     }
 
@@ -191,17 +192,7 @@ int main() {
                     cout << "Current " << name << " hp: " << hp << endl << endl;
 
                     if ( hp == 0 ) {
-                        cout << endl << endl;
-                        cout << "GAME OVER\n";
-                        if (killsCount >= 5) {
-                            cout << "YOU KILLED " << killsCount << "MONSTERS!!!\n";
-                            cout << "YOU ARE GREATE!\n";
-                        } else {
-                            cout << "You are looser...\n";
-                            cout << "But you killed " << killsCount << " monsters!\n";
-                        }
-                        cout << "Exiting the game...\n";
-                        cout << endl << endl;
+                        printGameOver(killsCount);
                         return 0;
                     }
 
@@ -229,8 +220,7 @@ int main() {
                 system("pause");
                 break;
             default:
-                cout << "You killed " << killsCount << " monsters\n";
-                cout << "Exiting...\n";
+                printGameOver(killsCount);
                 break;
         }
     }
